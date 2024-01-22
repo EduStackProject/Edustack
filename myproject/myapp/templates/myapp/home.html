@@ -1,0 +1,106 @@
+<!-- homepage/templates/homepage/home.html -->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        div {
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Student Management System</h1>
+    
+    <div>
+        <button>Student Dashboard</button>
+        <button>College Dashboard</button>
+        <button>Teacher Dashboard</button>
+       <button>Admin Dashboard</button>
+    </div>
+</body>
+</html>
+-->
+<!-- core/templates/core/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        div {
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Student Management System</h1>
+    
+    <div>
+        <a href="{% url 'upload_student_file' %}"><button>Upload Student File</button></a>
+        <a href="{% url 'manual_student_entry' %}"><button>Manual Entry</button></a>
+        <a href="{% url 'view_student_data' %}"><button>View Student Data</button></a>
+        <a href="{% url 'get_student_by_roll_number' %}"><button>search by roll_number</button></a>
+    </div>
+</body>
+</html>
+

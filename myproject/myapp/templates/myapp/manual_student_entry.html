@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Student Entry</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #28a745;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        label {
+            color: #28a745;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+            border: 1px solid #28a745;
+            border-radius: 4px;
+        }
+
+        .validation-message {
+            color: red;
+            margin-top: -12px;
+            margin-bottom: 12px;
+        }
+
+        button.btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        button.btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Manual Student Entry</h1>
+        <form method="post" action="{% url 'manual_student_entry' %}" onsubmit="return validateForm()" id="studentForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+</body>
+</html>

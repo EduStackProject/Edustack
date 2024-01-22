@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student Data</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7; /* Light Gray Background */
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333; /* Dark Gray Text */
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* White Background */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff; /* Primary Blue Background */
+            color: #fff; /* White Text */
+        }
+
+        tr:hover {
+            background-color: #e0e0e0; /* Light Gray Hover Background */
+        }
+
+        .edit-form-inner {
+            margin: 20px auto;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: #28a745; /* Success Green Background */
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838; /* Darker Green Hover Background */
+        }
+    </style>
+
+    <!-- Include jQuery (required for Bootstrap JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <!-- Include Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <h1>Student Data</h1>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Grade</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.roll_number }}</td>
+                    <td>{{ student.grade }}</td>
+                    <td>{{student.phno}}</td>
+                    <td>
+                        <button class="btn btn-success edit-btn" data-id="{{ student.id }}">Edit</button>
+                    </td>
+                </tr>
+                <!-- Add a hidden form for each student -->
+                <tr class="edit-form" id="editForm{{ student.id }}" style="display:none;">
+                    <td colspan="3">
+                        <form class="edit-form-inner needs-validation" method="post" action="{% url 'edit_student' student.id %}" novalidate>
+                            {% csrf_token %}
+                            {{ student_form.as_p }}
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationName">Name</label>
+                                    <input type="text" class="form-control" id="validationName" name="name" value="{{ student.name }}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationRollNumber">Roll Number</label>
+                                    <input type="text" class="form-control" id="validationRollNumber" name="roll_number" value="{{ student.roll_number }}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationGrade">Grade</label>
+                                    <input type="text" class="form-control" id="validationGrade" name="grade" value="{{ student.grade }}" required>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+ <!-- Remove jQuery -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+
+<!-- Update your JavaScript code without jQuery -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Edit button click event
+        var editButtons = document.querySelectorAll('.edit-btn');
+        editButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var studentId = button.getAttribute('data-id');
+                // Hide all edit forms
+                var editForms = document.querySelectorAll('.edit-form');
+                editForms.forEach(function (form) {
+                    form.style.display = 'none';
+                });
+                // Show the selected edit form
+                var selectedForm = document.getElementById('editForm' + studentId);
+                if (selectedForm) {
+                    selectedForm.style.display = 'block';
+                }
+            });
+        });
+
+        // Form submission event
+        var editForms = document.querySelectorAll('.edit-form-inner');
+        editForms.forEach(function (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var formData = new FormData(form);
+                fetch(form.getAttribute('action'), {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': form.querySelector('input[name="csrfmiddlewaretoken"]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        console.error('Form submission failed:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

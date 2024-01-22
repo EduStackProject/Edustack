@@ -1,0 +1,52 @@
+<!-- myapp/templates/myapp/upload_student_file.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Student File</title>
+<style>
+     body {
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        margin-top: 20px;
+    }
+     form {
+        width: 50%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+     button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        button:hover {
+            background-color: #45a049;
+        }
+    
+        /* Centering the file input and button */
+        label, button {
+            vertical-align: middle;
+        }
+</style>
+</head>
+<body>
+    <h1>Upload Student File</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file" accept=".xls, .xlsx" required>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

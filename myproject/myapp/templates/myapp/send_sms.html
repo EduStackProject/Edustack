@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send SMS</title>
+</head>
+<body>
+    <h2>Send SMS</h2>
+    <form method="post" action="{% url 'send_sms' %}">
+        {% csrf_token %}
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" name="phone_number" required>
+        <button type="submit">Send SMS</button>
+    </form>
+</body>
+</html>

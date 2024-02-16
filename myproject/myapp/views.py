@@ -72,22 +72,27 @@ import logging
 from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
-
 def edit_student(request, student_id):
     try:
-        student = get_object_or_404(Student, student_id=student_id)
+        student = get_object_or_404(Student, id=student_id)
 
         if request.method == 'POST':
-            # Your existing code...
+            form = StudentForm(request.POST, instance=student)
 
-            # Return a success response with JSON content type
-            return JsonResponse({'success': True}, content_type='application/json')
+            
+            # Replace 'default_phno_value' with the actual default value
+
+            if form.is_valid():
+                form.save()  # Save the updated student data
+
+                # Return a success response with JSON content type
+                return JsonResponse({'success': True}, content_type='application/json')
+            else:
+                # If the form is not valid, return an error response
+                return JsonResponse({'success': False, 'errors': form.errors}, content_type='application/json')
 
     except Exception as e:
-        traceback_str = traceback.format_exc()
-        return JsonResponse({'success': False, 'error': str(e), 'traceback': traceback_str}, content_type='application/json')
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'}, content_type='application/json')
+        return JsonResponse({'success': False, 'error': str(e)}, content_type='application/json')
 def send_sms(request):
     if request.method == 'POST':
         phone_number = request.POST.get('phone_number', '')

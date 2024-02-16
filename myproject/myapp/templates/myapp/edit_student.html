@@ -11,41 +11,46 @@
     <form id="editStudentForm" method="post" action="{% url 'edit_student' student.id %}">
         {% csrf_token %}
         {{ student_form.as_p }}
-        <input type="hidden" name="edited_name" value="{{ student.name }}">
-        <input type="hidden" name="edited_roll_number" value="{{ student.roll_number }}">
-        <input type="hidden" name="edited_grade" value="{{ student.grade }}">
-        <input type="hidden" name="edited_phno" value="{{ student.phno }}">
         <button type="submit" id="saveBtn">Save</button>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Form submission event
-        $('#editStudentForm').on('submit', function (e) {
-            e.preventDefault();
-            var form = $(this);
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (data) {
-                    if (data.success) {
-                        console.log('Student data updated successfully!');
-                        // You can add code here to update the UI or display a success message
-                    } else {
-                        console.error('Error updating student data:', data.error);
-                        // You can add code here to display an error message to the user
+    <script>
+       $(document).ready(function () {
+    // Form submission event
+   $(document).ready(function () {
+    // Form submission event
+    $('#editStudentForm').on('submit', function (e) {
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success) {
+                    console.log('Student data updated successfully!');
+                    // You can add code here to update the UI or display a success message
+                } else {
+                    console.error('Error updating student data:', data.errors);
+
+                    // Display error messages
+                    var errorMessages = '';
+                    for (var key in data.errors) {
+                        errorMessages += key + ': ' + data.errors[key].join(', ') + '\n';
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Ajax request failed:', error);
-                    // You can add code here to display an error message to the user
+                    alert(errorMessages);
                 }
-            });
+            },
+            error: function (xhr, status, error) {
+                console.error('Ajax request failed:', error);
+                // You can add code here to display an error message to the user
+            }
         });
     });
-</script>
+});
 
+
+    </script>
 </body>
 </html>

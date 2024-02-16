@@ -28,7 +28,7 @@ def upload_student_file(request):
                     name=row['Name'],
                     roll_number=row['Roll Number'],
                     grade=row['Grade'],
-                    phno=row['Phone Number'] 
+                    phno=row['phno']
 
                     # Add other fields as needed
                 )

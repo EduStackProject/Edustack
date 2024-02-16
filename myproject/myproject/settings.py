@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import random
+import string
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
 
     #myproject
     'myapp.apps.MyappConfig',
@@ -114,6 +118,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+chars = string.ascii_letters + string.digits + string.punctuation
+SECRET_KEY = ''.join(random.choice(chars) for _ in range(50))
+
 
 
 # Static files (CSS, JavaScript, Images)

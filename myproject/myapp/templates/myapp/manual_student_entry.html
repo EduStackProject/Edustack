@@ -59,14 +59,55 @@
             border-color: #1e7e34;
         }
     </style>
+    
+    
 </head>
 <body>
     <div class="container">
         <h1 class="mt-5">Manual Student Entry</h1>
         <form method="post" action="{% url 'manual_student_entry' %}" onsubmit="return validateForm()" id="studentForm">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="form-group">
+                <label for="id_name">Name</label>
+                <input type="text" class="form-control" id="id_name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="id_roll_number">Roll Number</label>
+                <input type="text" class="form-control" id="id_roll_number" name="roll_number" required>
+            </div>
+            <div class="form-group">
+                <label for="id_grade">Grade</label>
+                <select class="form-control" id="id_grade" name="grade" required>
+                    <option value="" disabled selected>Select Grade</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="id_phno">Phone Number</label>
+                <input type="text" class="form-control" id="id_phno" name="phno" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+            </div>
             <button type="submit" class="btn btn-success">Submit</button>
-            </form>
+        </form>
+    </div>
+    
+    <script>
+        function validateForm() {
+            var phno = document.getElementById('id_phno').value;
+            var grade = document.getElementById('id_grade').value;
+    
+            if (phno.length !== 10 || isNaN(phno)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
+    
 </body>
 </html>

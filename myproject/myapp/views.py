@@ -128,9 +128,14 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from .models import Student
 
-@require_http_methods(["DELETE"])
-def delete_student(request):
-    student_id = request.GET.get('id')
-    student = get_object_or_404(Student, id=student_id)
-    student.delete()
-    return JsonResponse({'success': True})
+def delete_student(request, student_id):
+    if request.method == 'POST':
+        # Fetch the student object to be deleted
+        student = get_object_or_404(Student, id=student_id)
+        # Delete the student object
+        student.delete()
+        # Return a success response
+        return JsonResponse({'success': True})
+    else:
+        # Return an error response if the request method is not POST
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
